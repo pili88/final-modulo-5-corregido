@@ -14,13 +14,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@WebServlet("/ModificarUsuarioServlet") //ModificarUsuarioServlet
+@WebServlet("/ModificarUsuarioServlet")
 public class ModificarUsuarioServlet extends HttpServlet {
     private UsuarioDAOImpl usuarioDAO;
 
     public void init() {
         usuarioDAO = new UsuarioDAOImpl();
     }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Verificar sesión
@@ -50,13 +51,6 @@ public class ModificarUsuarioServlet extends HttpServlet {
         }
     }
 
-
-//        String username = (String) session.getAttribute("usuario");
-//        Usuario usuario = usuarioDAO.buscarUsuarioPorUsername(username);
-//        request.setAttribute("usuario", usuario);
-//        request.getRequestDispatcher("modificar-usuario.jsp").forward(request, response);
-
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
@@ -84,7 +78,9 @@ public class ModificarUsuarioServlet extends HttpServlet {
 
             // Modificar usuario
             if (usuarioDAO.modificarUsuario(usuario)) {
-                response.sendRedirect("consulta-horoscopo.jsp");
+                request.setAttribute("success","Usuario modificado exitosamente");
+                request.getRequestDispatcher("modificarUsuario.jsp").forward(request,response);
+//                response.sendRedirect("consulta-horoscopo.jsp");
             } else {
                 request.setAttribute("error", "No se pudo modificar el usuario");
                 request.getRequestDispatcher("modificarUsuario.jsp").forward(request, response);

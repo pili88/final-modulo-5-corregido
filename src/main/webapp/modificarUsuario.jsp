@@ -80,6 +80,26 @@
                     </div>
                     <% } %>
 
+                    <%-- Mostrar mensaje de éxito si existe --%>
+                    <%
+                        String successMessage = (String) request.getAttribute("success");
+                        if (successMessage != null && !successMessage.isEmpty()) {
+                    %>
+                    <div class="alert alert-success">
+                        <%= successMessage %>
+                    </div>
+                    <% } %>
+
+                    <%-- Mostrar mensaje de error si existe --%>
+                    <%
+                        String errorMessage = (String) request.getAttribute("error");
+                        if (errorMessage != null && !errorMessage.isEmpty()) {
+                    %>
+                    <div class="alert alert-danger">
+                        <%= errorMessage %>
+                    </div>
+                    <% } %>
+
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary">Actualizar Datos</button>
                     </div>
@@ -96,4 +116,3 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
