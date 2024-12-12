@@ -27,6 +27,7 @@ public class EliminarUsuarioServlet extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
+
         String idStr = request.getParameter("id");
         if (idStr != null && !idStr.isEmpty()) {
             try {
@@ -36,29 +37,21 @@ public class EliminarUsuarioServlet extends HttpServlet {
                 if (usuarioAEliminar != null) {
                     if (usuarioDAO.eliminarUsuario(usuarioAEliminar.getUsername())) {
                         response.sendRedirect("ListarUsuariosServlet");
+                        return;
                     } else {
                         request.setAttribute("mensaje", "No se pudo eliminar el usuario");
                         request.setAttribute("tipoMensaje", "alert-danger");
                         request.getRequestDispatcher("listarUsuarios.jsp").forward(request, response);
+                        return;
                     }
                 }
             } catch (NumberFormatException e) {
                 response.sendRedirect("listarUsuarios.jsp");
-
-                String username = (String) session.getAttribute("usuario");
-
-                if (usuarioDAO.eliminarUsuario(username)) {
-                    // Cerrar sesión después de eliminar
-                    session.invalidate();
-                    response.sendRedirect("login.jsp");
-                } else {
-                    request.setAttribute("error", "No se pudo eliminar el usuario");
-                    request.getRequestDispatcher("consulta-horoscopo.jsp").forward(request, response);
-    }
-}
+                return;
+            }
+        }
 
         String username = (String) session.getAttribute("usuario");
-
         if (usuarioDAO.eliminarUsuario(username)) {
             // Cerrar sesión después de eliminar
             session.invalidate();
@@ -66,10 +59,6 @@ public class EliminarUsuarioServlet extends HttpServlet {
         } else {
             request.setAttribute("error", "No se pudo eliminar el usuario");
             request.getRequestDispatcher("consulta-horoscopo.jsp").forward(request, response);
-
-        }
         }
     }
 }
-
-
